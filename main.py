@@ -15,25 +15,33 @@ def decrypt(ciphertext, options):
 
 def generate_dict(arr, shift_count):
     dictionary = {}
+    reverse_dictionary = {}
     for index, alphabet in enumerate(arr):
-        print(index)
         if index < 26:
             if index + shift_count <= 25:
-                dictionary[alphabet] = arr[index + shift_count]
+                new_alphabet = arr[index + shift_count]
+                dictionary[alphabet] = new_alphabet
+                reverse_dictionary[new_alphabet] = alphabet
             else:
                 overflow = index + shift_count
                 new_index = overflow - 26
-                dictionary[alphabet] = arr[new_index]
+                new_alphabet = arr[new_index]
+                dictionary[alphabet] = new_alphabet
+                reverse_dictionary[new_alphabet] = alphabet
 
         else:
             if index + shift_count <= 51:
-                dictionary[alphabet] = arr[index + shift_count]
+                new_alphabet = arr[index + shift_count]
+                dictionary[alphabet] = new_alphabet
+                reverse_dictionary[new_alphabet] = alphabet
             else:
                 overflow = index + shift_count
-                new_index = overflow - 52
-                dictionary[alphabet] = arr[new_index]
+                new_index = overflow - 26
+                new_alphabet = arr[new_index]
+                dictionary[alphabet] = new_alphabet
+                reverse_dictionary[new_alphabet] = alphabet
 
-    return dictionary
+    return dictionary, reverse_dictionary
 
 
 def get_file_content(path):
@@ -64,14 +72,34 @@ def run():
     file_path = sys.argv[1]
     file_contents = get_file_content(file_path)
     result = parse_file_content(file_contents)
-    # print('text is: ' + result['text'])
+    text = result['text']
 
     operation = result['operation']
     shift_count = result['shift_count']
     language_file_path = './' + result['language'] + '.txt'
     language_file_content = get_file_content(language_file_path)
-    dictionary = generate_dict(language_file_content.split(','), shift_count)
-    print(dictionary)
+    encrypt_dict, decrypt_dict = generate_dict(language_file_content.split(','), shift_count)
+
+    if operation == '0':
+        new_text = transform(text, encrypt_dict)
+    else:
+        new_text = transform(text, decrypt_dict)
+
+    print(new_text.upper())
+
+
+def transform(text, dictionary):
+    text_array = list(text)
+    result_array = []
+
+    for char in text_array:
+        if char == ' ':
+            result_array.append(' ')
+        else:
+            result_array.append(dictionary[char])
+
+    return "".join(result_array)
+
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
