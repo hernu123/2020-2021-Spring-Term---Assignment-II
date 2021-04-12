@@ -1,7 +1,3 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 import sys
 
 
@@ -11,19 +7,18 @@ def generate_dict(arr, shift_count):
     list_length = len(arr)
 
     for index, alphabet in enumerate(arr):
-        if index + shift_count <= list_length-1:
-                new_alphabet = arr[index + shift_count]
-                dictionary[alphabet] = new_alphabet
-                reverse_dictionary[new_alphabet] = alphabet
+        if index + shift_count <= list_length - 1:
+            new_alphabet = arr[index + shift_count]
+            dictionary[alphabet] = new_alphabet
+            reverse_dictionary[new_alphabet] = alphabet
+        else:
+            overflow = index + shift_count
+            new_index = overflow - list_length
+            new_alphabet = arr[new_index]
+            dictionary[alphabet] = new_alphabet
+            reverse_dictionary[new_alphabet] = alphabet
 
-            else:
-                overflow = index + shift_count
-                new_index = overflow - list_length
-                new_alphabet = arr[new_index]
-                dictionary[alphabet] = new_alphabet
-                reverse_dictionary[new_alphabet] = alphabet
-
-            return dictionary, reverse_dictionary
+    return dictionary, reverse_dictionary
 
 
 def get_file_content(path):
@@ -84,8 +79,6 @@ def transform(text, dictionary):
 
 
 # Press the green button in the gutter to run the script.
-if name == 'main':
+
+if name=='main':
     run()
-
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
