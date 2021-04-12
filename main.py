@@ -5,43 +5,25 @@
 import sys
 
 
-def encrypt(plaintext, options):
-    print('Encrypting...')
-
-
-def decrypt(ciphertext, options):
-    print('Decrypting...')
-
-
 def generate_dict(arr, shift_count):
     dictionary = {}
     reverse_dictionary = {}
+    list_length = len(arr)
+
     for index, alphabet in enumerate(arr):
-        if index < 26:
-            if index + shift_count <= 25:
+        if index + shift_count <= list_length-1:
                 new_alphabet = arr[index + shift_count]
                 dictionary[alphabet] = new_alphabet
                 reverse_dictionary[new_alphabet] = alphabet
+
             else:
                 overflow = index + shift_count
-                new_index = overflow - 26
+                new_index = overflow - list_length
                 new_alphabet = arr[new_index]
                 dictionary[alphabet] = new_alphabet
                 reverse_dictionary[new_alphabet] = alphabet
 
-        else:
-            if index + shift_count <= 51:
-                new_alphabet = arr[index + shift_count]
-                dictionary[alphabet] = new_alphabet
-                reverse_dictionary[new_alphabet] = alphabet
-            else:
-                overflow = index + shift_count
-                new_index = overflow - 26
-                new_alphabet = arr[new_index]
-                dictionary[alphabet] = new_alphabet
-                reverse_dictionary[new_alphabet] = alphabet
-
-    return dictionary, reverse_dictionary
+            return dictionary, reverse_dictionary
 
 
 def get_file_content(path):
@@ -85,7 +67,7 @@ def run():
     else:
         new_text = transform(text, decrypt_dict)
 
-    print(new_text.upper())
+    print(new_text)
 
 
 def transform(text, dictionary):
@@ -96,13 +78,14 @@ def transform(text, dictionary):
         if char == ' ':
             result_array.append(' ')
         else:
-            result_array.append(dictionary[char])
+            result_array.append(dictionary[char.lower()])
 
     return "".join(result_array)
 
 
 # Press the green button in the gutter to run the script.
-if __name__ == '__main__':
+if name == 'main':
     run()
+
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
