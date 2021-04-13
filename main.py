@@ -80,5 +80,4 @@ def transform(text, dictionary):
 
 # Press the green button in the gutter to run the script.
 
-if name=='main':
-    run()
+run()
